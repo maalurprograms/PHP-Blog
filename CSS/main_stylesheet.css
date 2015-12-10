@@ -1,0 +1,143 @@
+#case {
+      font-family: 'Poiret One', cursive;
+      font-weight: 800;
+      font-size: 20px;
+      padding-left: 100px;
+      padding-right: 100px;
+}
+
+#menu a {
+    color: white;
+}
+
+#menu a:hover{
+    color: lightgreen;
+    background: white;
+    cursor: pointer;
+}
+
+#menu .navbar {
+    background-color: lightgreen;
+    border: none;
+}
+
+#content {
+    padding-left: 300px;
+    padding-top: 50px;
+    padding-right: 300px;
+}
+
+#content a {
+    color: black;
+}
+
+#content a:hover{
+    border-radius: 4px;
+    color: lightgreen;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#content div h2:hover {
+    border-radius: 4px;
+    color: lightgreen;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#content #welcome{
+    text-align: center;
+}
+
+#content .content_div * {
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+#content #post * {
+    padding-bottom: 20px;
+}
+
+#content .content_div {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+    border-radius: 3px;
+    border-color: lightgreen;
+}
+
+#menu_bar {
+    width: 100%;
+}
+
+#user_home{
+    float: right;
+}
+
+#logout{
+    float: right;
+}
+
+#case h1, #case h2, #case h3 {
+    font-weight: 600;
+}
+
+#case #create_post_button{
+    border: 1px solid;
+    border: none;
+    border-radius: 3px;
+    margin: -6px;
+    margin-top: 5px;
+    background-color: white;
+
+}
+
+#case #create_post_button:hover{
+    color: white;
+    background-color: lightgreen;
+}
+
+#case #add_post_button{
+    border: 1px solid;
+    border-radius: 3px;
+    margin-top: 10px;
+    background-color: white;
+    border-color: lightgreen;
+
+}
+
+#case #add_post_button:hover{
+    color: white;
+    background-color: lightgreen;
+}
+
+#case select {
+    border-radius: 3px;
+    border-color: lightgreen;
+}
+
+#case input {
+    border: 1px solid;
+    width: 100%;
+    border-radius: 3px;
+    border-color: lightgreen;
+    padding-left: 5px;
+}
+
+#case select option {
+    font-weight: 700;
+}
+
+#case p {
+    margin-top: 10px;
+    margin-left: 6px;
+    margin-bottom: none;
+}
+
+#content #error {
+    text-align: center;
+}
+
+.alarm {
+    color: red;
+}

@@ -1,0 +1,8 @@
+﻿Zuerst das login.html File im Ordner Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
+Ohne Login Funktioniert die Seite (main.php) nicht!
+
+Es gibt schon einen Admin benutzer mit Passwort admin. Auch sind ein paar Posts erstellt, die aber alle nur Fülltext und random Bewertungen beinhalten.
+Erstellen kann man einen Post im Usermenu unter "Post erstellen".
+
+!!! Das kopieren Artikel z.B. aus Wikipedia funktioniert nicht immer. !!!
+    Selbstgeschriebene funktionieren aber immer.
