@@ -67,13 +67,6 @@
 
           print("<div class='content_div'><h1>".$_SESSION["USERNAME"]."</h1></div>");
 
-          $result = $db->querySingle("select sum(Rating) from users_articles
-              inner join articles on articles.ArticleID=users_articles.IDArticle
-              inner join users on users.UserID=users_articles.IDUser
-              where UserId = '".$_SESSION["USERID"]."'");
-
-          print("<div class='content_div'>Gesammte Bewertung: ".$result."<br>");
-
           $result = $db->querySingle("select count(ArticleID) from users_articles
               inner join articles on articles.ArticleID=users_articles.IDArticle
               inner join users on users.UserID=users_articles.IDUser
@@ -85,7 +78,7 @@
               <h3>Meine Posts:</h3></div><br>
           ");
 
-          $result = $db->query("select ArticleID, Title, Rating, Content from articles_themes
+          $result = $db->query("select ArticleID, Title, Content from articles_themes
               inner join articles on articles.ArticleID=articles_themes.IDArticle
               inner join themes on themes.ThemeID=articles_themes.IDTheme
               inner join users_articles on users_articles.IDArticle=articles.ArticleID
@@ -101,7 +94,6 @@
 
                $row[$i]['id'] = $res['ArticleID'];
                $row[$i]['title'] = $res['Title'];
-               $row[$i]["rating"] = $res["Rating"];
                $row[$i]['content'] = $res['Content'];
 
                 $i++;
@@ -109,12 +101,11 @@
             }
             for ($i=0; $i < count($row); $i++) {
                 print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                print("<p>Bewertung: ".$row[$i]["rating"]."</p>");
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                 print($out."</div>");
             }
       } else {
-          $result = $db->query("select ArticleID, Title, Username, Rating, Content from articles_themes
+          $result = $db->query("select ArticleID, Title, Username, Content from articles_themes
               inner join articles on articles.ArticleID=articles_themes.IDArticle
               inner join themes on themes.ThemeID=articles_themes.IDTheme
               inner join users_articles on users_articles.IDArticle=articles.ArticleID
@@ -133,7 +124,6 @@
                $row[$i]['id'] = $res['ArticleID'];
                $row[$i]['title'] = $res['Title'];
                $row[$i]['username'] = $res['Username'];
-               $row[$i]["rating"] = $res["Rating"];
                $row[$i]['content'] = $res['Content'];
 
                 $i++;
@@ -141,7 +131,7 @@
             }
             for ($i=0; $i < count($row); $i++) {
                 print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                print("<p>".$row[$i]['username']."<br>Bewertung: ".$row[$i]["rating"]."</p><br>");
+                print("<p>".$row[$i]['username']."<br></p><br>");
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                 print($out."</div>");
             }

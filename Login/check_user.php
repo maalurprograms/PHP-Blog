@@ -48,7 +48,7 @@
                         print("<a href='login.html'>Zurück zum login</a>");
                     } else {
                         if ($_POST["password"] == $_POST["password_retype"]) {
-                            $db->exec("insert into users (Email, Username, Password) values ('".$_POST["email"]"', '".$_POST["username"]."','".$_POST["password"]."')");
+                            $db->exec("insert into users (Email, Username, Password) values ('".$_POST["email"]."', '".$_POST["username"]."','".$_POST["password"]."')");
                             print("Vielen Dank<br>");
                             print("<a href='..\Main\main.php'>Hier gehts zur Homepage</a>");
                             session_start();
