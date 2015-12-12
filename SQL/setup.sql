@@ -3,7 +3,7 @@ create table articles (ArticleID integer primary key autoincrement, Title text, 
 
 drop table users;
 create table users (UserID integer primary key autoincrement, Email text unique, Username text, Password text);
-insert into users (Email, Username, Password) values ("admin@test.ch", "Admin", "admin");
+insert into users (Email, Username, Password) values ("admin@test.ch", "Admin", "$2y$10$u6jpmjB/PSY5xsoBegVne.tMU63Ep1FUztnSbubXsSYaHyVqrQ8Oa");
 select * from users;
 
 drop table users_articles;

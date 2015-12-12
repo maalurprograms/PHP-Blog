@@ -30,7 +30,7 @@
                         print($back_to_login);
                     } else {
                         $result = $db->querySingle("select Password from users where Email = '".$_POST["email"]."'");
-                        if ($result == $_POST["password"]) {
+                        if (password_verify($_POST["password"], $result)) {
                             print("<a href='../Main/main.php'>Hier gehts zur Homepage</a>");
                             session_start();
                             $_SESSION["EMAIL"] = $_POST["email"];
@@ -48,7 +48,8 @@
                         print("<a href='login.html'>Zurück zum login</a>");
                     } else {
                         if ($_POST["password"] == $_POST["password_retype"]) {
-                            $db->exec("insert into users (Email, Username, Password) values ('".$_POST["email"]."', '".$_POST["username"]."','".$_POST["password"]."')");
+                            $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                            $db->exec("insert into users (Email, Username, Password) values ('".$_POST["email"]."', '".$_POST["username"]."','".$hash."')");
                             print("Vielen Dank<br>");
                             print("<a href='..\Main\main.php'>Hier gehts zur Homepage</a>");
                             session_start();
