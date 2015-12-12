@@ -21,39 +21,40 @@
               <!-- -->
               <?php
                 $db = new SQLite3("..\SQL\blog.db");
-                $error = "Username/Passwort ungültig<br>";
+                $error = "Email/Passwort ungültig<br>";
                 $back_to_login = "<a href='login.html'>Zurück zum login</a>";
                 if (count($_POST) < 3) {
-                    $result = $db->querySingle("select exists(select * from users where Username = '".$_POST["username"]."')");
+                    $result = $db->querySingle("select exists(select * from users where Email = '".$_POST["email"]."')");
                     if (!$result) {
                         print($error);
                         print($back_to_login);
                     } else {
-                        $result = $db->querySingle("select Password from users where Username = '".$_POST["username"]."'");
+                        $result = $db->querySingle("select Password from users where Email = '".$_POST["email"]."'");
                         if ($result == $_POST["password"]) {
-                            print("Wilkommen ".$_POST["username"]."<br>");
                             print("<a href='../Main/main.php'>Hier gehts zur Homepage</a>");
                             session_start();
-                            $_SESSION["USERNAME"] = $_POST["username"];
-                            $_SESSION["USERID"] = $db->querySingle("select UserID from users where Username ='".$_POST["username"]."'");
+                            $_SESSION["EMAIL"] = $_POST["email"];
+                            $_SESSION["USERNAME"] = $db->querySingle("select Username from users where Email ='".$_POST["email"]."'");
+                            $_SESSION["USERID"] = $db->querySingle("select UserID from users where Email ='".$_POST["email"]."'");
                         } else {
                             print($error);
                             print($back_to_login);
                         }
                     }
                 } else {
-                    $result = $db->querySingle("select exists(select * from users where Username = '".$_POST["username"]."')");
+                    $result = $db->querySingle("select exists(select * from users where Email = '".$_POST["email"]."')");
                     if ($result) {
                         print("Diesen User gibt es schon<br>");
                         print("<a href='login.html'>Zurück zum login</a>");
                     } else {
                         if ($_POST["password"] == $_POST["password_retype"]) {
-                            $db->exec("insert into users (Username, Password) values ('".$_POST["username"]."','".$_POST["password"]."')");
-                            print("Vielen Dank für deine Registration<br>");
-                            print("<a href='..\Main\main.php'>Hier kommst du zur Homepage</a>");
+                            $db->exec("insert into users (Email, Username, Password) values ('".$_POST["email"]"', '".$_POST["username"]."','".$_POST["password"]."')");
+                            print("Vielen Dank<br>");
+                            print("<a href='..\Main\main.php'>Hier gehts zur Homepage</a>");
                             session_start();
+                            $_SESSION["EMAIL"] = $_POST["email"];
                             $_SESSION["USERNAME"] = $_POST["username"];
-                            $_SESSION["USERID"] = $db->querySingle("select UserID from users where Username ='".$_POST["username"]."'");
+                            $_SESSION["USERID"] = $db->querySingle("select UserID from users where Email ='".$_POST["email"]."'");
                         } else {
                             print("Die Passwörter stimmen nicht überein<br>");
                             print("<a href='login.html'>Zurück zum login</a>");
