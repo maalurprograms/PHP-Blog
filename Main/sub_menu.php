@@ -104,22 +104,48 @@
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                 print($out."</div>");
             }
+        } elseif ($clicked_sub_menu == "show_blog") {
+            $anzPosts = $db->querySingle("select count(ArticleID) from articles
+            inner join users_articles on users_articles.IDArticle=articles.ArticleID
+            inner join users on users.UserID=users_articles.IDUser
+            where Username = '".$_SESSION["USERNAME"]."'");
+            print("
+                <div class='content_div'>
+                    <h1>".$_SESSION["USERNAME"]."</h1>
+                </div>
+                <p>Anzahl Posts: ".$anzPosts."</p>
+            ");
+            $row = listPosts("Username", $_SESSION["USERNAME"], "ArticleID", "desc", $db);
+            for ($i=0; $i < count($row); $i++) {
+                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
+                print($out."</div>");
+            }
       } else {
+            $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);
+
+            for ($i=0; $i < count($row); $i++) {
+                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                print("<p>Blog: <a onclick='showBlog()'>".$row[$i]['username']."</a><br></p><br>");
+                $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
+                print($out."</div>");
+            }
+      }
+
+      function listPosts($searchedRow, $searchedColumn, $orderByRow, $orderType, $db) {
           $result = $db->query("select ArticleID, Title, Username, Content from articles_themes
               inner join articles on articles.ArticleID=articles_themes.IDArticle
               inner join themes on themes.ThemeID=articles_themes.IDTheme
               inner join users_articles on users_articles.IDArticle=articles.ArticleID
               inner join users on users.UserID=users_articles.IDUser
-              where lower(ThemeName) = '".$clicked_sub_menu."'
-              order by ArticleID desc");
+              where lower(".$searchedRow.") = lower('".$searchedColumn."')
+              order by ".$orderByRow." ".$orderType."");
 
           $row = array();
 
           $i = 0;
 
            while($res = $result->fetchArray(SQLITE3_ASSOC)){
-
-               //if(!isset($res['user_id'])) continue;
 
                $row[$i]['id'] = $res['ArticleID'];
                $row[$i]['title'] = $res['Title'];
@@ -129,11 +155,6 @@
                 $i++;
 
             }
-            for ($i=0; $i < count($row); $i++) {
-                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                print("<p>".$row[$i]['username']."<br></p><br>");
-                $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
-                print($out."</div>");
-            }
+            return $row;
       }
 ?>

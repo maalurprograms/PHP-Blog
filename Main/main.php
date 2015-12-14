@@ -41,7 +41,7 @@
             <div id="content">
                 <div class="content_div" id="welcome">
                     <h1>Wilkommen auf diesem Blog</h1>
-                    <p>Hier sehen Sie die neusten Blogs:</p><br>
+                    <p>Hier sehen Sie alle Blogbeiträge:</p><br>
                 </div>
                 <?php
                     $db = new SQLite3('..\SQL\blog.db');
@@ -51,8 +51,7 @@
                         inner join themes on themes.ThemeID=articles_themes.IDTheme
                         inner join users_articles on users_articles.IDArticle=articles.ArticleID
                         inner join users on users.UserID=users_articles.IDUser
-                        order by ArticleID desc
-                        limit 5");
+                        order by ArticleID desc");
 
                     $row = array();
 
@@ -72,7 +71,7 @@
                       }
                       for ($i=0; $i < count($row); $i++) {
                           print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                          print("<p>".$row[$i]['username']."<br></p>");
+                          print("<p><a onclick='showBlog()'>".$row[$i]['username']."</a><br></p>");
                           $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                           print($out."</div>");
                       }

@@ -72,6 +72,12 @@ function checkPostData(){
     }
 }
 
+function showBlog() {
+    xhttp.open("POST", "sub_menu.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("submenu=show_blog");
+}
+
 
 $(document).ready(function(){
     $("a").click(load_site);

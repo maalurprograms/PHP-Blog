@@ -8,7 +8,11 @@
         inner join users on users.UserID=users_articles.IDUser
         where ArticleID = ".$clicked_post, true);
 
-    print("<div class='content_div' id='post'><h2 id='show_content'>".$result["Title"]."</h2>");
-    print("<p>".$result["Username"]."</p>");
-    print($result["Content"]);
+    print("
+        <div class='content_div' id='post'>
+            <h2 id='show_content'>".$result["Title"]."</h2>
+            <p>".$result["Username"]."</p>
+            ".$result["Content"]."
+        </div>
+    ");
 ?>
