@@ -134,6 +134,57 @@
             print("ok");
             break;
 
+        case "home":
+            print('
+                <div class="content_div" id="welcome">
+                    <h1>Wilkommen</h1>
+                    <p>Hier sehen Sie alle Blogs:</p><br>
+                </div>
+            ');
+            $result = $db->query("select Username from users");
+            $row = array();
+            $i = 0;
+            while($res = $result->fetchArray(SQLITE3_ASSOC)){
+                $row[$i] = $res['Username'];
+                $i++;
+            }
+            print("<div id='blogs'>");
+            for ($i=0; $i < count($row); $i++) {
+                if ($row[$i] != "Admin") {
+                    print("<h2 class='getBlog' name='".$row[$i]."'>".$row[$i]."</h2> ");
+                }
+            }
+            print("</div>");
+            break;
+
+        case "home_menu":
+            print('
+                <nav class="navbar">
+                  <div>
+                    <div>
+                        <ul id="menu_bar" class="nav navbar-nav">
+                            <li><a id="home" href="main.html">Home</a></li>
+            ');
+            $result = $db->query("select ThemeName from themes");
+            $menu = array();
+            $i = 0;
+            while($res = $result->fetchArray(SQLITE3_ASSOC)){
+                $menu[$i] = $res['ThemeName'];
+                $i++;
+            }
+            for ($i=0; $i < count($menu); $i++) {
+                print('<li><a id="'.strtolower($menu[$i]).'">'.$menu[$i].'</a></li>');
+            }
+            print('
+                            <li id="logout"><a id="logout">Abmelden</a></li>
+                            <li id="user_home"><a id="uhome">'.$_SESSION["USERNAME"].'</a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </nav>
+            ');
+            break;
+
         default:
             $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);
 

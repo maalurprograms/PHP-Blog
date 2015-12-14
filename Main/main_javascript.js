@@ -87,4 +87,12 @@ function deletePost(id) {
 $(document).ready(function(){
     $("a").click(load_site);
     $(".getBlog").click(showBlog);
+    $("#menu").html(xhttp.responseText);
+    xhttp.open("POST", "sub_menu.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("submenu=home_menu");
+    $("#content").html(xhttp.responseText);
+    xhttp.open("POST", "sub_menu.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("submenu=home");
 });
