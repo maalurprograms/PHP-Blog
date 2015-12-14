@@ -1,8 +1,17 @@
 ﻿Zuerst das login.html File im Ordner Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
 Ohne Login Funktioniert die Seite (main.php) nicht!
 
-Es gibt schon einen Admin benutzer mit Email admin@test.ch und Passwort admin. Auch sind ein paar Posts erstellt, die aber alle nur Fülltext und random Bewertungen beinhalten.
-Erstellen kann man einen Post im Usermenu unter "Post erstellen".
+User:
+    admin@gibb.ch
+    gibbiX12345$
 
-!!! Das kopieren Artikel z.B. aus Wikipedia funktioniert nicht immer. !!!
+    test1@gibb.ch
+    gibbiX12345$
+
+    test2@gibb.ch
+    gibbiX12345$
+
+Empfohlener Browser: Chrome
+
+!!! Das kopieren von Artikel z.B. aus Wikipedia funktioniert nicht immer. !!!
     Selbstgeschriebene funktionieren aber immer.

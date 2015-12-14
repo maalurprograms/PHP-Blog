@@ -61,7 +61,7 @@
                 print("
                 <div class='content_div'>
                     <h1>Ihr Artikel wurde erstellt</h1>
-                    Sie können Ihn nun unter der von Ihnen angegebenen Kategorie oder in Ihrem Benutzerprofil abrufen
+                    Sie können diesen nun unter der von Ihnen angegebenen Kategorie oder in Ihrem Benutzerprofil abrufen
                 ");
             }
             break;
@@ -80,27 +80,7 @@
               <h3>Meine Posts:</h3></div><br>
             ");
 
-            $result = $db->query("select ArticleID, Title, Content from articles_themes
-              inner join articles on articles.ArticleID=articles_themes.IDArticle
-              inner join themes on themes.ThemeID=articles_themes.IDTheme
-              inner join users_articles on users_articles.IDArticle=articles.ArticleID
-              inner join users on users.UserID=users_articles.IDUser
-              where UserId = '".$_SESSION["USERID"]."'
-              order by ArticleID desc");
-
-            $row = array();
-
-            $i = 0;
-
-            while($res = $result->fetchArray(SQLITE3_ASSOC)){
-
-               $row[$i]['id'] = $res['ArticleID'];
-               $row[$i]['title'] = $res['Title'];
-               $row[$i]['content'] = $res['Content'];
-
-                $i++;
-
-            }
+            $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $db);
             for ($i=0; $i < count($row); $i++) {
                 print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
@@ -137,9 +117,10 @@
             print("
                 <div class='content_div' id='post'>
                     <h2 id='show_content'>".$result["Title"]."</h2>
-                    <p name='".$result["Username"]."' class='getBlog'>".$result["Username"]."</p>
+                    <p name='".$result["Username"]."' class='getBlog'>Blog: ".$result["Username"]."</p>
                     ".$result["Content"]."
                 </div>
+                <button>Löschen</button>
             ");
 
         default:

@@ -64,6 +64,7 @@
     border-bottom: 1px solid;
     border-radius: 3px;
     border-color: lightgreen;
+    overflow: auto;
 }
 
 #menu_bar {
@@ -97,7 +98,7 @@
     background-color: lightgreen;
 }
 
-#case #add_post_button{
+#case #add_post_button, #case #delete_button{
     border: 1px solid;
     border-radius: 3px;
     margin-top: 10px;
@@ -106,7 +107,7 @@
 
 }
 
-#case #add_post_button:hover{
+#case #add_post_button:hover, #case #delete_button{
     color: white;
     background-color: lightgreen;
 }
