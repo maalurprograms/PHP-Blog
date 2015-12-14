@@ -141,3 +141,13 @@
 .alarm {
     color: red;
 }
+
+#blogs {
+    text-align: center;
+}
+
+.getBlog:hover {
+    color: lightgreen;
+    background: white;
+    cursor: pointer;
+}

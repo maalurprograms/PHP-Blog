@@ -40,41 +40,29 @@
             </div>
             <div id="content">
                 <div class="content_div" id="welcome">
-                    <h1>Wilkommen auf diesem Blog</h1>
-                    <p>Hier sehen Sie alle Blogbeiträge:</p><br>
+                    <h1>Wilkommen</h1>
+                    <p>Hier sehen Sie alle Blogs:</p><br>
                 </div>
                 <?php
                     $db = new SQLite3('..\SQL\blog.db');
 
-                    $result = $db->query("select ArticleID, Title, Username, Content from articles_themes
-                        inner join articles on articles.ArticleID=articles_themes.IDArticle
-                        inner join themes on themes.ThemeID=articles_themes.IDTheme
-                        inner join users_articles on users_articles.IDArticle=articles.ArticleID
-                        inner join users on users.UserID=users_articles.IDUser
-                        order by ArticleID desc");
+                    $result = $db->query("select Username from users");
 
                     $row = array();
 
                     $i = 0;
 
                      while($res = $result->fetchArray(SQLITE3_ASSOC)){
-
-                         //if(!isset($res['user_id'])) continue;
-
-                         $row[$i]['id'] = $res['ArticleID'];
-                         $row[$i]['title'] = $res['Title'];
-                         $row[$i]['username'] = $res['Username'];
-                         $row[$i]['content'] = $res['Content'];
-
-                          $i++;
-
-                      }
+                         $row[$i] = $res['Username'];
+                         $i++;
+                     }
+                     print("<div id='blogs'>");
                       for ($i=0; $i < count($row); $i++) {
-                          print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                          print("<p><a onclick='showBlog()'>".$row[$i]['username']."</a><br></p>");
-                          $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
-                          print($out."</div>");
+                          if ($row[$i] != "Admin") {
+                              print("<h2 class='getBlog' name='".$row[$i]."'>".$row[$i]."</h2> ");
+                          }
                       }
+                      print("</div>");
                 ?>
             </div>
         </div>

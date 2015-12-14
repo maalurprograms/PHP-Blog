@@ -29,9 +29,9 @@ function add_post(){
 }
 
 function load_post(id) {
-    xhttp.open("POST", "post.php", true);
+    xhttp.open("POST", "sub_menu.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("id="+id);
+    xhttp.send("submenu=post&id="+id);
 }
 
 function load_site() {
@@ -75,10 +75,11 @@ function checkPostData(){
 function showBlog() {
     xhttp.open("POST", "sub_menu.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("submenu=show_blog");
+    xhttp.send("submenu=show_blog&user="+$(this).attr("name"));
 }
 
 
 $(document).ready(function(){
     $("a").click(load_site);
+    $(".getBlog").click(showBlog);
 });
