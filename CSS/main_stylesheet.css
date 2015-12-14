@@ -107,7 +107,7 @@
 
 }
 
-#case #add_post_button:hover, #case #delete_button{
+#case #add_post_button:hover, #case #delete_button:hover{
     color: white;
     background-color: lightgreen;
 }

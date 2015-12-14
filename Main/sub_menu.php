@@ -115,13 +115,24 @@
                 where ArticleID = ".$clicked_post, true);
 
             print("
-                <div class='content_div' id='post'>
+                 <div class='content_div' id='post'>
                     <h2 id='show_content'>".$result["Title"]."</h2>
                     <p name='".$result["Username"]."' class='getBlog'>Blog: ".$result["Username"]."</p>
                     ".$result["Content"]."
                 </div>
-                <button>Löschen</button>
             ");
+            $owner = $db->querySingle("select UserID from users
+                inner join users_articles on users.UserID=users_articles.IDUser
+                inner join articles on articles.ArticleID=users_articles.IDArticle
+                where ArticleID = '".$clicked_post."'");
+            if ($_SESSION["USERID"] == $owner) {
+                print("<button id='delete_button' onclick='deletePost(".'"'.$clicked_post.'"'.")'>Löschen</button>");
+            }
+            break;
+
+        case "delete_post":
+            print("ok");
+            break;
 
         default:
             $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);

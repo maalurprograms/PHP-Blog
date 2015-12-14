@@ -78,6 +78,11 @@ function showBlog() {
     xhttp.send("submenu=show_blog&user="+$(this).attr("name"));
 }
 
+function deletePost(id) {
+    xhttp.open("POST", "sub_menu.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("submenu=delete_post&postid="+id);
+}
 
 $(document).ready(function(){
     $("a").click(load_site);
