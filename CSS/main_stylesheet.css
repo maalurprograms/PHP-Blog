@@ -68,7 +68,7 @@
     font-weight: 600;
 }
 
-#case #create_post_button{
+#case #post_creator_button{
     border: 1px solid;
     border: none;
     border-radius: 3px;
@@ -86,7 +86,7 @@
     border-color: lightgreen;
 }
 
-#case #add_post_button:hover, #case #delete_button:hover, #case #create_post_button:hover, #change_button:hover{
+#case #add_post_button:hover, #case #delete_button:hover, #case #post_creator_button:hover, #change_button:hover{
     color: white;
     background-color: lightgreen;
 }
