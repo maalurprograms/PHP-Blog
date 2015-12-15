@@ -9,6 +9,7 @@
     });
     $(".getBlog").click(showBlog);
     $(".menu_elements").click(load_site);
+    $(".delete_user").click(deleteUser);
 </script>
 <?php
     session_start();
@@ -68,25 +69,69 @@
             break;
 
         case "uhome":
-            print("<div class='content_div'><h1>".$_SESSION["USERNAME"]."</h1></div>");
+            if ($_SESSION["EMAIL"] != "admin@gibb.ch") {
+                print("<div class='content_div'><h1>".$_SESSION["USERNAME"]."</h1></div>");
 
-            $result = $db->querySingle("select count(ArticleID) from users_articles
-              inner join articles on articles.ArticleID=users_articles.IDArticle
-              inner join users on users.UserID=users_articles.IDUser
-              where UserId = '".$_SESSION["USERID"]."'");
+                $result = $db->querySingle("select count(ArticleID) from users_articles
+                  inner join articles on articles.ArticleID=users_articles.IDArticle
+                  inner join users on users.UserID=users_articles.IDUser
+                  where UserId = '".$_SESSION["USERID"]."'");
 
-            print("
-              Posts: ".$result."<br>
-              <button id='create_post_button' onclick='create_post()'>Post erstellen</button><br><br>
-              <h3>Meine Posts:</h3></div><br>
-            ");
+                print("
+                  Posts: ".$result."<br>
+                  <button id='create_post_button' onclick='create_post()'>Post erstellen</button><br><br>
+                  <h3>Meine Posts:</h3></div><br>
+                ");
 
-            $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $db);
-            for ($i=0; $i < count($row); $i++) {
-                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
-                print($out."</div>");
+                $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $db);
+                for ($i=0; $i < count($row); $i++) {
+                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                    $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
+                    print($out."</div>");
+                }
+            } else {
+                $result = $db->query("select Email from users");
+                $row = array();
+                $i = 0;
+                while($res = $result->fetchArray(SQLITE3_ASSOC)){
+                    $row[$i] = $res['Email'];
+                    $i++;
+                }
+                print("
+                <div class='content_div'>
+                    <h3 class='textalign_center'>Klicken Sie auf einen User um ihn zu löschen:</h3>
+                </div>
+                <div class='content_div'>
+                    <p>
+                ");
+                for ($i=0; $i < count($row); $i++) {
+                    if ($row[$i] != "admin@gibb.ch") {
+                        $userID = $db->querySingle("select UserID from users where Email = '".$row[$i]."'");
+                        print("<span name=".$userID." class='delete_user'>".$row[$i]."</span> ");
+                    }
+                }
+                print("
+                    <p>
+                </div>
+                ");
             }
+            break;
+
+        case "delete_user":
+            $db->exec("delete from users where UserID = ".$_POST["userid"]);
+            $result = $db->query("select IDArticle from users_articles where IDUser = ".$_POST["userid"]);
+            $row = array();
+            $i = 0;
+            while($res = $result->fetchArray(SQLITE3_ASSOC)){
+                $row[$i] = $res['IDArticle'];
+                $i++;
+            }
+            for ($i=0; $i < count($row); $i++) {
+                $db->exec("delete from articles where ArticleID = ".$row[$i]);
+                $db->exec("delete from articles_themes where IDArticle = ".$row[$i]);
+            }
+            $db->exec("delete from users_articles where IDUser = ".$_POST["userid"]);
+            print("<div id='post_deleted' class='content_div'><h1>Der User wurde gelöscht</h1></div>");
             break;
 
         case "show_blog":
@@ -126,13 +171,16 @@
                 inner join users_articles on users.UserID=users_articles.IDUser
                 inner join articles on articles.ArticleID=users_articles.IDArticle
                 where ArticleID = '".$clicked_post."'");
-            if ($_SESSION["USERID"] == $owner) {
+            if ($_SESSION["USERID"] == $owner || $_SESSION["EMAIL"] == "admin@gibb.ch") {
                 print("<button id='delete_button' onclick='deletePost(".'"'.$clicked_post.'"'.")'>Löschen</button>");
             }
             break;
 
         case "delete_post":
-            print("ok");
+            $db->exec("delete from articles where ArticleID = ".$_POST["postid"]);
+            $db->exec("delete from users_articles where IDArticle = ".$_POST["postid"]);
+            $db->exec("delete from articles_themes where IDArticle = ".$_POST["postid"]);
+            print("<div id='post_deleted' class='content_div'><h1>Ihr Post wurde gelöscht</h1></div>");
             break;
 
         case "home":
@@ -188,12 +236,15 @@
 
         default:
             $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);
-
-            for ($i=0; $i < count($row); $i++) {
-                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
-                print("<p name='".$row[$i]['username']."' class='getBlog'>Blog: ".$row[$i]['username']."<br></p><br>");
-                $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
-                print($out."</div>");
+            if (count($row)) {
+                for ($i=0; $i < count($row); $i++) {
+                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                    print("<p name='".$row[$i]['username']."' class='getBlog'>Blog: ".$row[$i]['username']."<br></p><br>");
+                    $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
+                    print($out."</div>");
+                }
+            } else {
+                print("<div id='void_category' class='content_div'><h3>In dieser Kategorie gibt es noch keine Posts.</h3></div>");
             }
     }
 

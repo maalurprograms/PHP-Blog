@@ -9,6 +9,14 @@ function setXHTTP(section) {
     return xhttp;
 }
 
+function deleteUser(id) {
+    if (confirm("Sind Sie sicher dass sie diesen User löschen wollen?")) {
+        xhttp_content.open("POST", "sub_menu.php", true);
+        xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp_content.send("submenu=delete_user&userid="+$(this).attr("name"));
+    }
+}
+
 function load_site() {
     if ($(this).attr("id") == "logout") {
         sessionStorage.clear();
@@ -82,9 +90,11 @@ function checkPostData(){
 }
 
 function deletePost(id) {
-    xhttp_content.open("POST", "sub_menu.php", true);
-    xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp_content.send("submenu=delete_post&postid="+id);
+    if (confirm("Sind Sie sicher dass sie diesen Eintrag löschen wollen?")) {
+        xhttp_content.open("POST", "sub_menu.php", true);
+        xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp_content.send("submenu=delete_post&postid="+id);
+    }
 }
 
 $(document).ready(function(){

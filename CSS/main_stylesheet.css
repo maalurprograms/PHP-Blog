@@ -10,7 +10,7 @@
     color: white;
 }
 
-#menu a:hover{
+#menu a:hover, .getBlog:hover{
     color: lightgreen;
     background: white;
     cursor: pointer;
@@ -31,22 +31,11 @@
     color: black;
 }
 
-#content a:hover{
+#content a:hover, #content div h2:hover{
     border-radius: 4px;
     color: lightgreen;
     text-decoration: none;
     cursor: pointer;
-}
-
-#content div h2:hover {
-    border-radius: 4px;
-    color: lightgreen;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#content #welcome{
-    text-align: center;
 }
 
 #content .content_div * {
@@ -71,11 +60,7 @@
     width: 100%;
 }
 
-#user_home{
-    float: right;
-}
-
-#logout{
+#user_home, #logout {
     float: right;
 }
 
@@ -93,21 +78,15 @@
 
 }
 
-#case #create_post_button:hover{
-    color: white;
-    background-color: lightgreen;
-}
-
 #case #add_post_button, #case #delete_button{
     border: 1px solid;
     border-radius: 3px;
     margin-top: 10px;
     background-color: white;
     border-color: lightgreen;
-
 }
 
-#case #add_post_button:hover, #case #delete_button:hover{
+#case #add_post_button:hover, #case #delete_button:hover, #case #create_post_button:hover{
     color: white;
     background-color: lightgreen;
 }
@@ -135,20 +114,15 @@
     margin-bottom: none;
 }
 
-#content #error {
-    text-align: center;
-}
-
 .alarm {
     color: red;
 }
 
-#blogs {
+#post_deleted, #void_category, .textalign_center, #blogs, #content #error, #content #welcome {
     text-align: center;
 }
 
-.getBlog:hover {
+.delete_user:hover {
     color: lightgreen;
-    background: white;
     cursor: pointer;
 }
