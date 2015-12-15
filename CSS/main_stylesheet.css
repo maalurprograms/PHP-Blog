@@ -78,7 +78,7 @@
 
 }
 
-#case #add_post_button, #case #delete_button{
+#case #add_post_button, #case #delete_button, #change_button{
     border: 1px solid;
     border-radius: 3px;
     margin-top: 10px;
@@ -86,7 +86,7 @@
     border-color: lightgreen;
 }
 
-#case #add_post_button:hover, #case #delete_button:hover, #case #create_post_button:hover{
+#case #add_post_button:hover, #case #delete_button:hover, #case #create_post_button:hover, #change_button:hover{
     color: white;
     background-color: lightgreen;
 }

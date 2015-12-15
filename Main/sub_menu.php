@@ -3,12 +3,9 @@
             // General options
         mode : "exact",
         elements : "editor",
-        setup : function(ed) {
-            ed.on("keyup", checkPostData);
-        }
     });
     $(".getBlog").click(showBlog);
-    $(".menu_elements").click(load_site);
+    $(".menu_elements").click(loadSubMenu);
     $(".delete_user").click(deleteUser);
 </script>
 <?php
@@ -16,7 +13,7 @@
     $clicked_sub_menu = $_POST["submenu"];
     $db = new SQLite3('..\SQL\blog.db');
     switch ($clicked_sub_menu) {
-        case "create_post":
+        case "post_creator":
             print("
                 <p>Titel:</p>
                 <p id='title_alarm' class='alarm'>Bitte geben Sie einen Titel ein.</p>
@@ -33,9 +30,19 @@
                    <option value='Musik'>Musik</option>
                    <option value='Reisen'>Reisen</option>
                 </select></p><br>
-                <button id='add_post_button' onclick='add_post()' style='display: none'>Erstellen</button>
+                <button id='change_post_button' onclick='addPost()'>Erstellen</button>
         ");
         break;
+
+        case "update_post":
+            $title = $db->querySingle("select Title from articles where ArticleID = ".$_POST["article_id"]);
+            $content = $db->querySingle("select Content from articles where ArticleID = ".$_POST["article_id"]);
+            print("
+                <p>".$title.":</p>
+                <textaera id='editor'>".$content."</textaera>
+                <button id='add_post_button' onclick='saveChanges(".'"'.$_POST["article_id"].'"'.")'>Speichern</button>
+            ");
+            break;
 
         case "add_post":
             $content = str_replace("%**%equals", "=", $_POST["post_content"]);
@@ -68,6 +75,18 @@
             }
             break;
 
+        case "save_changes":
+            $content = str_replace("%**%equals", "=", $_POST["post_content"]);
+            $content = str_replace("%**%", "&", $content);
+            $db->exec("update articles set Content = '".$content."' where ArticleID = ".$_POST["article_id"]);
+
+            print("
+            <div class='content_div'>
+                <h1>Ihre Änderungen wurden gespeichert</h1>
+                Sie können den Artikel nun unter der von Ihnen angegebenen Kategorie oder in Ihrem Benutzerprofil abrufen
+            ");
+            break;
+
         case "uhome":
             if ($_SESSION["EMAIL"] != "admin@gibb.ch") {
                 print("<div class='content_div'><h1>".$_SESSION["USERNAME"]."</h1></div>");
@@ -79,13 +98,13 @@
 
                 print("
                   Posts: ".$result."<br>
-                  <button id='create_post_button' onclick='create_post()'>Post erstellen</button><br><br>
+                  <button id='post_creator_button' onclick='postCreator()'>Post erstellen</button><br><br>
                   <h3>Meine Posts:</h3></div><br>
                 ");
 
                 $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $db);
                 for ($i=0; $i < count($row); $i++) {
-                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                     $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                     print($out."</div>");
                 }
@@ -118,8 +137,8 @@
             break;
 
         case "delete_user":
-            $db->exec("delete from users where UserID = ".$_POST["userid"]);
-            $result = $db->query("select IDArticle from users_articles where IDUser = ".$_POST["userid"]);
+            $db->exec("delete from users where UserID = ".$_POST["user_id"]);
+            $result = $db->query("select IDArticle from users_articles where IDUser = ".$_POST["user_id"]);
             $row = array();
             $i = 0;
             while($res = $result->fetchArray(SQLITE3_ASSOC)){
@@ -130,7 +149,7 @@
                 $db->exec("delete from articles where ArticleID = ".$row[$i]);
                 $db->exec("delete from articles_themes where IDArticle = ".$row[$i]);
             }
-            $db->exec("delete from users_articles where IDUser = ".$_POST["userid"]);
+            $db->exec("delete from users_articles where IDUser = ".$_POST["user_id"]);
             print("<div id='post_deleted' class='content_div'><h1>Der User wurde gelöscht</h1></div>");
             break;
 
@@ -145,7 +164,7 @@
                 <p>Anzahl Posts: ".$anzPosts."</p>");
             $row = listPosts("Username", $_POST["user"], "ArticleID", "desc", $db);
             for ($i=0; $i < count($row); $i++) {
-                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                 print($out."</div>");
             }
@@ -172,14 +191,16 @@
                 inner join articles on articles.ArticleID=users_articles.IDArticle
                 where ArticleID = '".$clicked_post."'");
             if ($_SESSION["USERID"] == $owner || $_SESSION["EMAIL"] == "admin@gibb.ch") {
+                $tinymceContent = $db->querySingle("select Content from articles where ArticleID = ".$clicked_post);
+                print("<button id='change_button' onclick='changePost(".'"'.$clicked_post.'"'.", ".'"'.$tinymceContent.'"'.")'>Bearbeiten</button>");
                 print("<button id='delete_button' onclick='deletePost(".'"'.$clicked_post.'"'.")'>Löschen</button>");
             }
             break;
 
         case "delete_post":
-            $db->exec("delete from articles where ArticleID = ".$_POST["postid"]);
-            $db->exec("delete from users_articles where IDArticle = ".$_POST["postid"]);
-            $db->exec("delete from articles_themes where IDArticle = ".$_POST["postid"]);
+            $db->exec("delete from articles where ArticleID = ".$_POST["article_id"]);
+            $db->exec("delete from users_articles where IDArticle = ".$_POST["article_id"]);
+            $db->exec("delete from articles_themes where IDArticle = ".$_POST["article_id"]);
             print("<div id='post_deleted' class='content_div'><h1>Ihr Post wurde gelöscht</h1></div>");
             break;
 
@@ -238,7 +259,7 @@
             $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);
             if (count($row)) {
                 for ($i=0; $i < count($row); $i++) {
-                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='load_post(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
+                    print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                     print("<p name='".$row[$i]['username']."' class='getBlog'>Blog: ".$row[$i]['username']."<br></p><br>");
                     $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                     print($out."</div>");

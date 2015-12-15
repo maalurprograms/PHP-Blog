@@ -13,11 +13,17 @@ function deleteUser(id) {
     if (confirm("Sind Sie sicher dass sie diesen User löschen wollen?")) {
         xhttp_content.open("POST", "sub_menu.php", true);
         xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp_content.send("submenu=delete_user&userid="+$(this).attr("name"));
+        xhttp_content.send("submenu=delete_user&user_id="+$(this).attr("name"));
     }
 }
 
-function load_site() {
+function changePost(id) {
+    xhttp_content.open("POST", "sub_menu.php", true);
+    xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp_content.send("submenu=update_post&article_id="+id);
+}
+
+function loadSubMenu() {
     if ($(this).attr("id") == "logout") {
         sessionStorage.clear();
         localStorage.clear();
@@ -35,16 +41,10 @@ function showBlog() {
     xhttp_content.send("submenu=show_blog&user="+$(this).attr("name"));
 }
 
-function add_post(){
+function addPost(){
     var post_title = $("#post_title").val();
     var post_category = $("#post_category").val();
     var post_content = tinyMCE.activeEditor.getContent();
-
-    if (!post_title) {
-        $("#title_alarm").show()
-    } if (!post_content) {
-        $("#content_alarm").show()
-    }
 
     var regex = new RegExp('&', 'g');
     post_content = post_content.replace(regex, '%**%');
@@ -57,43 +57,35 @@ function add_post(){
     xhttp_content.send("submenu=add_post&"+data);
 }
 
-function load_post(id) {
+function saveChanges(id) {
+    var post_content = tinyMCE.activeEditor.getContent();
+    var regex = new RegExp('&', 'g');
+    post_content = post_content.replace(regex, '%**%');
+    var regex = new RegExp('=', 'g');
+    post_content = post_content.replace(regex, '%**%equals');
+
+    xhttp_content.open("POST", "sub_menu.php", true);
+    xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp_content.send("submenu=save_changes&post_content="+post_content+"&article_id="+id);
+}
+
+function showPost(id) {
     xhttp_content.open("POST", "sub_menu.php", true);
     xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp_content.send("submenu=post&id="+id);
 }
 
-function create_post() {
+function postCreator() {
     xhttp_content.open("POST", "sub_menu.php", true);
     xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp_content.send("submenu=create_post");
-}
-
-function checkPostData(){
-    if (!$("#post_title").val()) {
-        $('#title_alarm').show();
-    } else {
-        $('#title_alarm').hide();
-    }
-
-    if (!tinyMCE.activeEditor.getContent()) {
-        $('#content_alarm').show();
-    } else {
-        $('#content_alarm').hide();
-    }
-
-    if (tinyMCE.activeEditor.getContent() && $("#post_title").val()) {
-        $("#add_post_button").show();
-    } else{
-        $("#add_post_button").hide();
-    }
+    xhttp_content.send("submenu=post_creator");
 }
 
 function deletePost(id) {
     if (confirm("Sind Sie sicher dass sie diesen Eintrag löschen wollen?")) {
         xhttp_content.open("POST", "sub_menu.php", true);
         xhttp_content.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp_content.send("submenu=delete_post&postid="+id);
+        xhttp_content.send("submenu=delete_post&article_id="+id);
     }
 }
 
