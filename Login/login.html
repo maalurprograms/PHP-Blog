@@ -26,7 +26,7 @@
               <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
                   <!-- -->
-                  <form action="check_user.php" method="post">
+                  <form onSubmit="checkLogIn()" method="post">
                     Email:<br>
                     <input required name="email" type="email"><br>
                     Password:<br>
@@ -48,7 +48,7 @@
               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
                   <!-- -->
-                  <form method="post" action="check_user.php">
+                  <form method="post" onSubmit="checkLogIn()">
                     Email:<br>
                     <input required name="email" type="email"><br>
                     Username:<br>

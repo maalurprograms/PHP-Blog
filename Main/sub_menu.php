@@ -10,9 +10,9 @@
 </script>
 <?php
     session_start();
-    $clicked_sub_menu = $_POST["submenu"];
-    $db = new SQLite3('..\SQL\blog.db');
-    switch ($clicked_sub_menu) {
+    $clickedSubMenu = $_POST["submenu"];
+    $SQLiteDB = new SQLite3('..\SQL\blog.db');
+    switch ($clickedSubMenu) {
         case "post_creator":
             print("
                 <p>Titel:</p>
@@ -35,8 +35,8 @@
         break;
 
         case "update_post":
-            $title = $db->querySingle("select Title from articles where ArticleID = ".$_POST["article_id"]);
-            $content = $db->querySingle("select Content from articles where ArticleID = ".$_POST["article_id"]);
+            $title = $SQLiteDB->querySingle("select Title from articles where ArticleID = ".$_POST["article_id"]);
+            $content = $SQLiteDB->querySingle("select Content from articles where ArticleID = ".$_POST["article_id"]);
             print("
                 <p>".$title.":</p>
                 <textaera id='editor'>".$content."</textaera>
@@ -47,7 +47,7 @@
         case "add_post":
             $content = str_replace("%**%equals", "=", $_POST["post_content"]);
             $content = str_replace("%**%", "&", $content);
-            $result = $db->querySingle("select exists(select Title from articles
+            $result = $SQLiteDB->querySingle("select exists(select Title from articles
                 where Title = '".$_POST["post_title"]."')");
             if ($result) {
                 print("
@@ -59,13 +59,13 @@
                     </div>
                 ");
             } else {
-                $db->exec("insert into articles (Title, Content) values ('".$_POST["post_title"]."','".$content."')");
-                $resultaid = $db->querySingle("select ArticleID from articles
+                $SQLiteDB->exec("insert into articles (Title, Content) values ('".$_POST["post_title"]."','".$content."')");
+                $resultaid = $SQLiteDB->querySingle("select ArticleID from articles
                     where Title = '".$_POST["post_title"]."'");
-                $resulttid = $db->querySingle("select ThemeID from themes
+                $resulttid = $SQLiteDB->querySingle("select ThemeID from themes
                     where ThemeName = '".$_POST["post_category"]."'");
-                $db->exec("insert into articles_themes (IDArticle, IDTheme) values ('".$resultaid."', '".$resulttid."')");
-                $db->exec("insert into users_articles values('".$resultaid."', '".$_SESSION["USERID"]."')");
+                $SQLiteDB->exec("insert into articles_themes (IDArticle, IDTheme) values ('".$resultaid."', '".$resulttid."')");
+                $SQLiteDB->exec("insert into users_articles values('".$resultaid."', '".$_SESSION["USERID"]."')");
 
                 print("
                 <div class='content_div'>
@@ -78,7 +78,7 @@
         case "save_changes":
             $content = str_replace("%**%equals", "=", $_POST["post_content"]);
             $content = str_replace("%**%", "&", $content);
-            $db->exec("update articles set Content = '".$content."' where ArticleID = ".$_POST["article_id"]);
+            $SQLiteDB->exec("update articles set Content = '".$content."' where ArticleID = ".$_POST["article_id"]);
 
             print("
             <div class='content_div'>
@@ -91,7 +91,7 @@
             if ($_SESSION["EMAIL"] != "admin@gibb.ch") {
                 print("<div class='content_div'><h1>".$_SESSION["USERNAME"]."</h1></div>");
 
-                $result = $db->querySingle("select count(ArticleID) from users_articles
+                $result = $SQLiteDB->querySingle("select count(ArticleID) from users_articles
                   inner join articles on articles.ArticleID=users_articles.IDArticle
                   inner join users on users.UserID=users_articles.IDUser
                   where UserId = '".$_SESSION["USERID"]."'");
@@ -102,14 +102,14 @@
                   <h3>Meine Posts:</h3></div><br>
                 ");
 
-                $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $db);
+                $row = listPosts("UserId", $_SESSION["USERID"], "ArticleID", "desc", $SQLiteDB);
                 for ($i=0; $i < count($row); $i++) {
                     print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                     $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
                     print($out."</div>");
                 }
             } else {
-                $result = $db->query("select Email from users");
+                $result = $SQLiteDB->query("select Email from users");
                 $row = array();
                 $i = 0;
                 while($res = $result->fetchArray(SQLITE3_ASSOC)){
@@ -125,7 +125,7 @@
                 ");
                 for ($i=0; $i < count($row); $i++) {
                     if ($row[$i] != "admin@gibb.ch") {
-                        $userID = $db->querySingle("select UserID from users where Email = '".$row[$i]."'");
+                        $userID = $SQLiteDB->querySingle("select UserID from users where Email = '".$row[$i]."'");
                         print("<span name=".$userID." class='delete_user'>".$row[$i]."</span> ");
                     }
                 }
@@ -137,8 +137,8 @@
             break;
 
         case "delete_user":
-            $db->exec("delete from users where UserID = ".$_POST["user_id"]);
-            $result = $db->query("select IDArticle from users_articles where IDUser = ".$_POST["user_id"]);
+            $SQLiteDB->exec("delete from users where UserID = ".$_POST["user_id"]);
+            $result = $SQLiteDB->query("select IDArticle from users_articles where IDUser = ".$_POST["user_id"]);
             $row = array();
             $i = 0;
             while($res = $result->fetchArray(SQLITE3_ASSOC)){
@@ -146,15 +146,15 @@
                 $i++;
             }
             for ($i=0; $i < count($row); $i++) {
-                $db->exec("delete from articles where ArticleID = ".$row[$i]);
-                $db->exec("delete from articles_themes where IDArticle = ".$row[$i]);
+                $SQLiteDB->exec("delete from articles where ArticleID = ".$row[$i]);
+                $SQLiteDB->exec("delete from articles_themes where IDArticle = ".$row[$i]);
             }
-            $db->exec("delete from users_articles where IDUser = ".$_POST["user_id"]);
+            $SQLiteDB->exec("delete from users_articles where IDUser = ".$_POST["user_id"]);
             print("<div id='post_deleted' class='content_div'><h1>Der User wurde gelöscht</h1></div>");
             break;
 
         case "show_blog":
-            $anzPosts = $db->querySingle("select count(ArticleID) from articles
+            $anzPosts = $SQLiteDB->querySingle("select count(ArticleID) from articles
             inner join users_articles on users_articles.IDArticle=articles.ArticleID
             inner join users on users.UserID=users_articles.IDUser
             where Username = '".$_POST["user"]."'");
@@ -162,7 +162,7 @@
                     <h1>".$_POST["user"]."</h1>
                 </div>
                 <p>Anzahl Posts: ".$anzPosts."</p>");
-            $row = listPosts("Username", $_POST["user"], "ArticleID", "desc", $db);
+            $row = listPosts("Username", $_POST["user"], "ArticleID", "desc", $SQLiteDB);
             for ($i=0; $i < count($row); $i++) {
                 print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
                 $out = strlen($row[$i]['content']) > 500 ? substr($row[$i]['content'],0,500)."..." : $row[$i]['content'];
@@ -171,13 +171,13 @@
             break;
 
         case "post":
-            $clicked_post = $_POST["id"];
-            $result = $db->querySingle("select Title, Username, Content from articles_themes
+            $clickedPost = $_POST["id"];
+            $result = $SQLiteDB->querySingle("select Title, Username, Content from articles_themes
                 inner join articles on articles.ArticleID=articles_themes.IDArticle
                 inner join themes on themes.ThemeID=articles_themes.IDTheme
                 inner join users_articles on users_articles.IDArticle=articles.ArticleID
                 inner join users on users.UserID=users_articles.IDUser
-                where ArticleID = ".$clicked_post, true);
+                where ArticleID = ".$clickedPost, true);
 
             print("
                  <div class='content_div' id='post'>
@@ -186,21 +186,21 @@
                     ".$result["Content"]."
                 </div>
             ");
-            $owner = $db->querySingle("select UserID from users
+            $owner = $SQLiteDB->querySingle("select UserID from users
                 inner join users_articles on users.UserID=users_articles.IDUser
                 inner join articles on articles.ArticleID=users_articles.IDArticle
-                where ArticleID = '".$clicked_post."'");
+                where ArticleID = '".$clickedPost."'");
             if ($_SESSION["USERID"] == $owner || $_SESSION["EMAIL"] == "admin@gibb.ch") {
-                $tinymceContent = $db->querySingle("select Content from articles where ArticleID = ".$clicked_post);
-                print("<button id='change_button' onclick='changePost(".'"'.$clicked_post.'"'.", ".'"'.$tinymceContent.'"'.")'>Bearbeiten</button>");
-                print("<button id='delete_button' onclick='deletePost(".'"'.$clicked_post.'"'.")'>Löschen</button>");
+                $tinymceContent = $SQLiteDB->querySingle("select Content from articles where ArticleID = ".$clickedPost);
+                print("<button id='change_button' onclick='changePost(".'"'.$clickedPost.'"'.", ".'"'.$tinymceContent.'"'.")'>Bearbeiten</button>");
+                print("<button id='delete_button' onclick='deletePost(".'"'.$clickedPost.'"'.")'>Löschen</button>");
             }
             break;
 
         case "delete_post":
-            $db->exec("delete from articles where ArticleID = ".$_POST["article_id"]);
-            $db->exec("delete from users_articles where IDArticle = ".$_POST["article_id"]);
-            $db->exec("delete from articles_themes where IDArticle = ".$_POST["article_id"]);
+            $SQLiteDB->exec("delete from articles where ArticleID = ".$_POST["article_id"]);
+            $SQLiteDB->exec("delete from users_articles where IDArticle = ".$_POST["article_id"]);
+            $SQLiteDB->exec("delete from articles_themes where IDArticle = ".$_POST["article_id"]);
             print("<div id='post_deleted' class='content_div'><h1>Ihr Post wurde gelöscht</h1></div>");
             break;
 
@@ -211,7 +211,7 @@
                     <p>Hier sehen Sie alle Blogs:</p><br>
                 </div>
             ');
-            $result = $db->query("select Username from users");
+            $result = $SQLiteDB->query("select Username from users");
             $row = array();
             $i = 0;
             while($res = $result->fetchArray(SQLITE3_ASSOC)){
@@ -235,7 +235,7 @@
                         <ul id="menu_bar" class="nav navbar-nav">
                             <li><a id="home" href="main.html">Home</a></li>
             ');
-            $result = $db->query("select ThemeName from themes");
+            $result = $SQLiteDB->query("select ThemeName from themes");
             $menu = array();
             $i = 0;
             while($res = $result->fetchArray(SQLITE3_ASSOC)){
@@ -256,7 +256,7 @@
             break;
 
         default:
-            $row = listPosts("ThemeName", $clicked_sub_menu, "ArticleID", "desc", $db);
+            $row = listPosts("ThemeName", $clickedSubMenu, "ArticleID", "desc", $SQLiteDB);
             if (count($row)) {
                 for ($i=0; $i < count($row); $i++) {
                     print("<div class='content_div'><h2 id='".$row[$i]['id']."' onclick='showPost(".$row[$i]["id"].")'>".$row[$i]['title']."</h2>");
@@ -269,8 +269,8 @@
             }
     }
 
-    function listPosts($searchedRow, $searchedColumn, $orderByRow, $orderType, $db) {
-      $result = $db->query("select ArticleID, Title, Username, Content from articles_themes
+    function listPosts($searchedRow, $searchedColumn, $orderByRow, $orderType, $SQLiteDB) {
+      $result = $SQLiteDB->query("select ArticleID, Title, Username, Content from articles_themes
           inner join articles on articles.ArticleID=articles_themes.IDArticle
           inner join themes on themes.ThemeID=articles_themes.IDTheme
           inner join users_articles on users_articles.IDArticle=articles.ArticleID
