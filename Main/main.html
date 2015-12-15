@@ -16,27 +16,7 @@
     <body>
         <div  id="case">
             <div id="menu">
-                <nav class="navbar">
-                  <div>
-                    <div>
-                        <ul id="menu_bar" class="nav navbar-nav">
-                            <li><a id="home" href="main.html">Home</a></li>
-                            <li><a id="computer">Computer</a></li>
-                            <li><a id="natur">Natur</a></li>
-                            <li><a id="fotografie">Fotografie</a></li>
-                            <li><a id="malerei">Malerei</a></li>
-                            <li><a id="games">Games</a></li>
-                            <li><a id="musik">Musik</a></li>
-                            <li><a id="reisen">Reisen</a></li>
-                            <?php
-                                session_start();
-                                print("<li id='logout'><a id='logout'>Abmelden</a></li>");
-                                print("<li id='user_home'><a id='uhome'>".$_SESSION["USERNAME"]."</a></li>");
-                            ?>
-                        </ul>
-                    </div>
-                  </div>
-                </nav>
+                <!-- Hier wird dynamisch alles geladen-->
             </div>
             <div id="content">
                 <!-- Hier wird dynamisch alles geladen-->

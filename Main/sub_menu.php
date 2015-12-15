@@ -8,6 +8,7 @@
         }
     });
     $(".getBlog").click(showBlog);
+    $(".menu_elements").click(load_site);
 </script>
 <?php
     session_start();
@@ -173,11 +174,11 @@
                 $i++;
             }
             for ($i=0; $i < count($menu); $i++) {
-                print('<li><a id="'.strtolower($menu[$i]).'">'.$menu[$i].'</a></li>');
+                print('<li><a class="menu_elements" id="'.strtolower($menu[$i]).'">'.$menu[$i].'</a></li>');
             }
             print('
-                            <li id="logout"><a id="logout">Abmelden</a></li>
-                            <li id="user_home"><a id="uhome">'.$_SESSION["USERNAME"].'</a></li>
+                            <li id="logout"><a class="menu_elements" id="logout">Abmelden</a></li>
+                            <li id="user_home"><a class="menu_elements" id="uhome">'.$_SESSION["USERNAME"].'</a></li>
                         </ul>
                     </div>
                   </div>
