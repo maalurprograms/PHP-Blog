@@ -58,11 +58,7 @@
     border-color: lightgrey;
 }
 
-#case #title{
-    padding: 10px;
-}
-
-#case #content{
+#case #title, #case #content {
     padding: 10px;
 }
 
@@ -91,4 +87,10 @@
     border-color: lightgreen;
     color: lightgreen;
     background-color: white;
+}
+
+#forwarding-div {
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: lightgreen;
 }

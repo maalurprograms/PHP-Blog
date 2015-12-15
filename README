@@ -18,3 +18,4 @@ Empfohlener Browser: Chrome
 Ein Blog kann entweder im Startmenu oder in einem Post des gewünschten Blogs aufgerufen werden. Im Startmenu muss nur auf den Namen geklickt werden. Beim Post kann auf "Blog: Beispiel" geklickt werden.
 
 User können im Menu Admin (natürlich nur wenn als Admin eingelogt ansonsten steht der jeweilige Username) gelöscht werden.
+Die Zeichen = und & dürfen in keinem der Registration/login Felder verwendet werden, da diese von AJAX als trennzeichen benützt werden.

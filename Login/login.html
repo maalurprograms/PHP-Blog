@@ -12,58 +12,59 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     </head>
-    <body>
-        <div id="case">
-          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Login
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                  <!-- -->
-                  <form onSubmit="checkLogIn()" method="post">
-                    Email:<br>
-                    <input required name="email" type="email"><br>
-                    Password:<br>
-                    <input required type="password" name="password"><br>
-                    <button type="submit">Send</button>
-                  </form>
-                  <!-- -->
+        <body>
+            <div id="case">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Login
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <!-- -->
+                                <form class="form" name="login" method="post"><!-- onSubmit="checkLogIn()" action="#" method="post">-->
+                                    Email:<br>
+                                    <input id="login-email" required name="email" type="email"><br>
+                                    Password:<br>
+                                    <input id="login-password" required type="password" name="password"><br>
+                                    <button type="submit">Send</button>
+                                </form>
+                                <!-- -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Register
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                <!-- -->
+                                <form class="form" name="register" method="post"><!-- onSubmit="checkLogIn()">-->
+                                    Email:<br>
+                                    <input id="register-email" required name="email" type="email"><br>
+                                    Username:<br>
+                                    <input id="register-username" required name="username"><br>
+                                    Password:<br>
+                                    <input required id="register-password" type="password" name="password" class="password"><br>
+                                    Retype Password:
+                                    <input required id="register-password-retype" type="password" name="password_retype" class="password"><br>
+                                    <p id="alarmtextpw">Die Passwörter stimmen nicht überein.</p>
+                                    <button type="submit" id="submit">Send</button>
+                                </form>
+                                <!-- -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Register
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
-                  <!-- -->
-                  <form method="post" onSubmit="checkLogIn()">
-                    Email:<br>
-                    <input required name="email" type="email"><br>
-                    Username:<br>
-                    <input required name="username"><br>
-                    Password:<br>
-                    <input required id="password" type="password" name="password" class="password"><br>
-                    Retype Password:
-                    <input required id="password_retype" type="password" name="password_retype" class="password"><br>
-                    <p id="alarmtextpw">Die Passwörter stimmen nicht überein.</p>
-                    <button type="submit" id="submit">Send</button>
-                  </form>
-                  <!-- -->
-                </div>
-              </div>
-            </div>
-        </div>
-    </body>
+        </body>
 </html>
