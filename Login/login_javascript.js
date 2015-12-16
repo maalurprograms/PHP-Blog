@@ -11,7 +11,7 @@ function setXHTTP(section) {
 
 function checkLogIn(e, object) {
     e.preventDefault();
-    xhhtp.open("POST", "check_user.php", true);
+    xhhtp.open("POST", "check_login.php", true);
     xhhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var dataLogin = "email="+$("#login-email").val()+"&password="+$("#login-password").val();
     var dataRegister = "email="+$("#register-email").val()+"&username="+$("#register-username").val()+"&password="+$("#register-password").val()+"&password_retype="+$("#register-password-retype").val();

@@ -38,16 +38,16 @@
     cursor: pointer;
 }
 
-#content .content_div * {
+#content .content-div * {
     margin: 0;
     padding-bottom: 5px;
 }
 
-#content #post * {
+#content #article * {
     padding-bottom: 20px;
 }
 
-#content .content_div {
+#content .content-div {
     padding: 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid;
@@ -56,11 +56,11 @@
     overflow: auto;
 }
 
-#menu_bar {
+#menu-bar {
     width: 100%;
 }
 
-#user_home, #logout {
+#user-home, #logout {
     float: right;
 }
 
@@ -68,7 +68,7 @@
     font-weight: 600;
 }
 
-#case #post_creator_button{
+#case #article-creator-button{
     border: 1px solid;
     border: none;
     border-radius: 3px;
@@ -78,7 +78,7 @@
 
 }
 
-#case #add_post_button, #case #delete_button, #change_button{
+#case #delete-button, #save-article-button, #edit-article-button{
     border: 1px solid;
     border-radius: 3px;
     margin-top: 10px;
@@ -86,7 +86,7 @@
     border-color: lightgreen;
 }
 
-#case #add_post_button:hover, #case #delete_button:hover, #case #post_creator_button:hover, #change_button:hover{
+#case #delete-button:hover, #case #article-creator-button:hover, #save-article-button:hover, #edit-article-button:hover{
     color: white;
     background-color: lightgreen;
 }
@@ -118,11 +118,11 @@
     color: red;
 }
 
-#post_deleted, #void_category, .textalign_center, #blogs, #content #error, #content #welcome {
+#article-deleted, #void-category, .textalign-center, #blogs, #content #error, #content #welcome {
     text-align: center;
 }
 
-.delete_user:hover {
+.delete-user:hover {
     color: lightgreen;
     cursor: pointer;
 }
