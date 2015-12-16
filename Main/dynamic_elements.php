@@ -61,7 +61,7 @@
             // Danach wird der Artikeltitel und der Editor , mit dem aktuellen Artikelinhalt, angezeigt.
             // Bei klicken auf den Button, wird die Javascriptmethode checkArticleData aufgerufen.
             print("
-                <h3 id='article' name=".$_POST["article_id"].">".$title.":</h3>
+                <h3 id='article-title' name=".$_POST["article_id"].">".$title.":</h3>
                 <p id='content_alarm' class='alarm' style='display: none;'>Sie haben noch keinen Inhalt.</p>
                 <textaera id='editor'>".$content."</textaera>
                 <button id='save-article-button' onclick='checkArticleData()'>Speichern</button>
