@@ -13,9 +13,7 @@ User:
 
 Empfohlener Browser: Chrome
 
-!!! Das kopieren von Artikel z.B. aus Wikipedia funktioniert nicht immer. !!!
-
 Ein Blog kann entweder im Startmenu oder in einem Post des gewünschten Blogs aufgerufen werden. Im Startmenu muss nur auf den Namen geklickt werden. Beim Post kann auf "Blog: Beispiel" geklickt werden.
 
-User können im Menu Admin (natürlich nur wenn als Admin eingelogt ansonsten steht der jeweilige Username) gelöscht werden.
+User können im Menu Admin (natürlich nur wenn als Admin eingelogt) gelöscht werden.
 Die Zeichen = und & dürfen in keinem der Registration/login Felder verwendet werden, da diese von AJAX als trennzeichen benützt werden.
