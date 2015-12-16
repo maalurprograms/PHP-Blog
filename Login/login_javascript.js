@@ -48,7 +48,7 @@ function checkPassword() {
     }
 }
 
-// Wenn das Dokument geladen ist, wird die Fehlermeldung sowie der Submit-Button im Registrationsbereich versteckt.
+// Wenn das HTML-Dokument geladen ist, wird die Fehlermeldung sowie der Submit-Button im Registrationsbereich versteckt.
 // Ausserdem wird eine Anfrage vorbereitet.
 $(document).ready(function(){
     xhhtp = setXHTTP("#case");
