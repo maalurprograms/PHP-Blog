@@ -1,4 +1,5 @@
-﻿Zuerst das login.html File im Ordner Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
+﻿--- BETA ---
+Zuerst das login.html File im Ordner Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
 Ohne Login Funktioniert die Seite (main.php) nicht!
 
 User:
