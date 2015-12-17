@@ -27,9 +27,8 @@ function sendXHTTPRequest(data, xhttp) {
 function loadSubMenu() {
     // Wenn der Logout-Button im Menu gecklickt wurde, werden die session Variabeln zurückgesetzt und man wird zum Login zurück geleitet.
     if ($(this).attr("id") == "logout") {
-        sessionStorage.clear();
-        localStorage.clear();
-        window.location = "../Login/login.html";
+        sendXHTTPRequest("submenu=logout", xhttp_content)
+        //window.location = "../Login/login.html";
     } else{
     // Bei allen anderen Menu punkten (ausser home da das ein Link auf main.html ist) wird nun der Inhalt des Menus geladen.
     // Dafür rufen wir die Methode "sendXHTTPRequest" auf die uns die Anfrage zusammenstellt.
