@@ -69,6 +69,7 @@
             break;
 
         case "logout":
+            // Die Sessionvariabeln werden gelöscht und eine dementsprechende Meldung wird ausgegeben.
             session_unset();
             session_destroy();
             print("
