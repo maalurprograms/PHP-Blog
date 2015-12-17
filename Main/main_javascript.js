@@ -85,14 +85,14 @@ function showBlog() {
 // oder ein User einen bestehenden Artikel geändert hat und diesen speichern will.
 function checkArticleData() {
     // Wir setzten die beiden Variabeln dataOk, die auf false/true gesetzt wird wenn die input/textaera felder Text enthalten/leer sind,
-    // und addArticle, die zum überprüfen bennötigt wird ob eine Artikel erstellt oder geändert wird.
+    // und add, die zum überprüfen bennötigt wird ob eine Artikel erstellt oder geändert wird.
     var dataOk = false;
-    var addArticle = false;
+    var add = false;
     // Wenn das Feld "article-title" existiert, wissen wir, dass ein Artikel angelegt wird.
     // Denn beim bearbeiten kann der Titel nich mehr verädert werden.
     if ($("#article_title").length>0) {
-        // Dementsprechend wird die Variabel "addArticle" auf true gesezt.
-        addArticle = true;
+        // Dementsprechend wird die Variabel "add" auf true gesezt.
+        add = true;
         // Wenn das Titelfeld leer ist, wird eine dementsprechende Fehlermeldung angezeigt.
         if (!$("#article_title").val()) {
             $("#title_alarm").show();
@@ -116,8 +116,8 @@ function checkArticleData() {
     // Wenn beide Überprüfungen "dataOk" auf true setzten heisst dass das überall etwas eingegeben wurde.
     if (dataOk) {
         // Nun wird überprüft ob ein Artikel erstellt oder geändert wird.
-        // Da wenn es kein Titelfeld gibt es sich um eine Änderung handelt, wird "addArticle" in diesem Fall auf false gesetzt. Falls es das Titelfeld gibt, auf true.
-        if (addArticle) {
+        // Da wenn es kein Titelfeld gibt es sich um eine Änderung handelt, wird "add" in diesem Fall auf false gesetzt. Falls es das Titelfeld gibt, auf true.
+        if (add) {
             // Wenn es eine Erstellung ist, wird nun die Methode addArticle() aufgerufen.
             addArticle();
         } else {
