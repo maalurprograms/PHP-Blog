@@ -1,4 +1,4 @@
-﻿Zuerst das login.html File im Ordner Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
+﻿Zuerst das login.html File im Ordner PHP-Blog/Login öffnen da ansonsten die Verwaltung mit SQL nicht funktioniert.
 Ohne Login Funktioniert die Seite (main.php) nicht!
 
 User:
@@ -17,3 +17,7 @@ Ein Blog kann entweder im Startmenu oder in einem Post des gewünschten Blogs au
 
 User können im Menu Admin (natürlich nur wenn als Admin eingelogt) gelöscht werden.
 Die Zeichen = und & dürfen in keinem der Registration/login Felder verwendet werden, da diese von AJAX als trennzeichen benützt werden.
+
+Ein Post kann in der Benutzerübersicht erstellt werden. Dazu muss auf den Usernamen im Menu geklickt werden und dann auf Post erstellen.
+
+Ein Post kann editiert werden, wenn man der ersteller des Postsist. Dazu muss man auf den Post gehen und Bearbeiten klicken. Löschen kann man den Post ebenfalls dort mit dem Löschen-Button.
