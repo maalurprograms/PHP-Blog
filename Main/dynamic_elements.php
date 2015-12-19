@@ -68,6 +68,17 @@
             ");
             break;
 
+        case "logout":
+            // Die Sessionvariabeln werden gelöscht und eine dementsprechende Meldung wird ausgegeben.
+            session_unset();
+            session_destroy();
+            print("
+            <div class='content-div textalign-center'>
+                <h1>Sie sind abgemeldet</h1>
+                <a href='../Login/login.html'>Zurück zum Login</a>
+            ");
+            break;
+
         case "add_article":
             // Wenn submenu add_article ist, wird eine Seite generiert auf der ein Artikel erstellt werden kann.
             // Als erstes werden die Zeichen %**%equals und "%**%" durch "=" und "&" ersetzt.
